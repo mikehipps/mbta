@@ -15,8 +15,11 @@ function mbta_wheresmytrain($stop) {
   $trips = $data->TripList->Trips;
   $arrivals = array();
   foreach ($trips as $trip) {
-    if ($trip->Predictions->Stop == $stop) {
-      $arrivals[$trip->Destination][] = $trip->Predictions->Seconds;
+    foreach ($trip->Predictions as $prediction) {
+      
+      if ($prediction->Stop == $stop) {
+        $arrivals[$trip->Destination][] = $prediction->Seconds;
+      }
     }
   }
   return $arrivals;
