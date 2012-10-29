@@ -7,12 +7,17 @@
  */
 function mbta_wheresmytrain($stop) {
   $data = drupal_http_request('http://developer.mbta.com/lib/rthr/red.json');
+
+  $data = drupal_http_request('http://www.mbta.com/uploadedfiles/SampleRed.json');
+
   $data = $data->data;
   $data = json_decode($data);
   $trips = $data->TripList->Trips;
-
-  foreach($trips as $trip) {
-
+  $arrivals = array();
+  foreach ($trips as $trip) {
+    if ($trip->Predictions->Stop == $stop) {
+      $arrivals[$trip->Destination][] = $trip->Predictions->Seconds;
+    }
   }
-  return $stop;
+  return $arrivals;
 }
