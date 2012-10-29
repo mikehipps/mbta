@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @file MBTA module
+ * Responsible for MBTA Drupal hook implementations.
+ */
+
+/**
+ * Implements Drupal's hook_menu().
+ */
+function mbta_menu() {
+  $items = array();
+
+  $items['admin/settings/mbta'] = array(
+    'title' => 'MBTA Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('mbta_settings_form'),
+    'access arguments' => array('administer MBTA'),
+    'description' => t('MBTA API settings'),
+    'file' => 'mbta.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['mbta/wheresmytrain/%'] = array(
+    'title' => 'Where Is My Train?',
+    'page callback' => 'mbta_wheresmytrain',
+    'page arguments' => array(2),
+    'access arguments' => array('view MBTA'),
+    'file' => 'mbta.wheresmytrain.inc',
+    'description' => t('Find your Train'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements Drupal's hook_perm().
+ */
+function mbta_perm() {
+  $perms = array(
+    'administer mbta',
+    'view mbta'
+  );
+
+  return $perms;
+}
+
+/**
+ * Implements Drupal's hook_block().
+ */
+function mbta_block($op = 'list', $delta = 0, $edit = array()) {
+  module_load_include('inc', 'mbta', 'mbta.block');
+
+  switch ($op) {
+    case 'list':
+      return mbta_block_list();
+    case 'configure':
+    case 'save':
+      break;
+    case 'view':
+      return mbta_block_view($delta);
+    default:
+      break;
+  }
+}
+
+/** Form wrapping */
+
+/**
+ * Form builder function for input for stop selection
+ * @param string $style
+ *  The style of form to display: either 'page' or 'block'
+ * @see _mbta_where_form (mbta.forms.inc).
+ */
+function mbta_which_stop_form(&$form_state, $style = 'page') {
+  module_load_include('inc', 'mbta', 'mbta.forms');
+  return _mbta_which_stop_form($style);
+}
+
+function mbta_which_stop_form_submit($form, &$form_state) {
+  dpm($form_state['values']);
+  drupal_goto('mbta/wheresmytrain/' . $form_state['values']['mbta_whichtrain']);
+}
