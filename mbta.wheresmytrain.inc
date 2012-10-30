@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Renders the Google Civic voterinfo view.
+ * Renders the MBTA where's my train view.
  * endpoint: mbta/wheresmytrain
  *
  */
