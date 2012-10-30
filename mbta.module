@@ -21,10 +21,9 @@ function mbta_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
-  $items['mbta/wheresmytrain/%'] = array(
+  $items['mbta/wheresmytrain'] = array(
     'title' => 'Where Is My Train?',
     'page callback' => 'mbta_wheresmytrain',
-    'page arguments' => array(2),
     'access arguments' => array('view MBTA'),
     'file' => 'mbta.wheresmytrain.inc',
     'description' => t('Find your Train'),
@@ -80,5 +79,5 @@ function mbta_which_stop_form(&$form_state, $style = 'page') {
 
 function mbta_which_stop_form_submit($form, &$form_state) {
   dpm($form_state['values']);
-  drupal_goto('mbta/wheresmytrain/' . $form_state['values']['mbta_whichtrain']);
+  drupal_goto('mbta/wheresmytrain/?stop=' . $form_state['values']['mbta_whichtrain']);
 }
