@@ -5,7 +5,8 @@
  * endpoint: mbta/wheresmytrain
  *
  */
-function mbta_wheresmytrain($stop) {
+function mbta_wheresmytrain() {
+  $stop = $_GET['stop'];
   $data = drupal_http_request('http://developer.mbta.com/lib/rthr/red.json');
 
   $data = drupal_http_request('http://www.mbta.com/uploadedfiles/SampleRed.json');
