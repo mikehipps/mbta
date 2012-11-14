@@ -64,6 +64,25 @@ function mbta_block($op = 'list', $delta = 0, $edit = array()) {
   }
 }
 
+/**
+ * Implements hook_theme
+ */
+function mbta_theme($existing, $type, $theme, $path) {
+  $tpls_dir = drupal_get_path('module', 'mbta') . '/tpls';
+  return array(
+    'wheres_my_train' => array(
+      'arguments' => array(
+        'arrivals' => '',
+        'title' => '',
+      ),
+      'path' => $tpls_dir,
+      'template' => 'wheres-my-train',
+    ),
+  );
+}
+
+
+
 /** Form wrapping */
 
 /**
