@@ -17,10 +17,27 @@ function mbta_wheresmytrain() {
     foreach ($trip->Predictions as $prediction) {
       
       if ($prediction->Stop == $stop) {
-        $arrivals[$trip->Destination][] = $prediction->Seconds;
+        $arrivals[] = array(
+                        'Destination' => $trip->Destination,
+                        'Arrival Time' => $prediction->Seconds,
+        );
       }
     }
   }
+  
+  $header = array(
+    array(
+      'data' => 'Destination',
+      'field' => 'Destination',
+      'sort' => 'asc',
+     ),
+    array(
+      'data' => 'Arrival Time',
+      'field' => 'Arrival Time',
+      'sort' => 'asc',
+    ),
+  );
 
-  return theme('wheres_my_train', $arrivals, 'Where\'s My Train');
+  return theme('table', $header, $arrivals);
+
 }
