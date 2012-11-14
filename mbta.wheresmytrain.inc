@@ -22,5 +22,5 @@ function mbta_wheresmytrain() {
     }
   }
 
-  return theme_item_list($arrivals, 'Where\'s My Train');
+  return theme('wheres_my_train', $arrivals, 'Where\'s My Train');
 }
