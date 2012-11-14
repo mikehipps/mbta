@@ -97,6 +97,6 @@ function mbta_which_stop_form(&$form_state, $style = 'page') {
 }
 
 function mbta_which_stop_form_submit($form, &$form_state) {
-  dpm($form_state['values']);
-  drupal_goto('mbta/wheresmytrain/?stop=' . $form_state['values']['mbta_whichtrain']);
+  $stop = $form_state['values']['mbta_whichtrain'];
+  drupal_goto('mbta/wheresmytrain', "stop=$stop");
 }
