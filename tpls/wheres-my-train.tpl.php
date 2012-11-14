@@ -11,9 +11,11 @@
 <div id="mbta-wmt-info">
   <?php if ($arrivals) : ?>
     <?php foreach ($arrivals as $k => $v): ?>
-      <li class="mbta-arrival">
-        <?php print $k . ": " . $v . " seconds" ?>
-      </li>
+      <?php foreach ($v as $val): ?>
+        <li class="mbta-arrival">
+          <?php print $k . ": " . $val . " seconds" ?>
+        </li>
+      <?php endforeach;?>
     <?php endforeach;?>
   <div id="mbta-wmt-arrivals">
     <?php print $locations; ?>
