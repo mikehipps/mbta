@@ -57,6 +57,9 @@ function _mbta_which_stop_form(&$form_state, $style) {
     '#type' => 'submit',
     '#value' => t('Submit'),
     '#weight' => 100,
+    '#attributes' => array(
+      'class' => 'whichtrain_submit',
+    ),
   );
 
   $form['#redirect'] = FALSE;
