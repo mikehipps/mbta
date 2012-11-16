@@ -12,8 +12,9 @@
  * @return Array
  *   The MBTA Address Form structure.
  */
-function _mbta_which_stop_form($style) {
+function _mbta_which_stop_form(&$form_state, $style) {
   $form = array();
+  $lines = mbta_get_line_list();
 
   $form['mbta_whichtrain']['intro'] = array(
     '#type' => 'item',
@@ -21,12 +22,21 @@ function _mbta_which_stop_form($style) {
     '#weight' => 0,
   );
 
-  $form['mbta_whichtrain']['mbta_whichtrain'] = array(
+  $form['mbta_whichtrain']['mbta_whichline'] = array(
     '#type' => 'select',
-    '#title' => t('Which Train'),
-    '#options' => mbta_get_stops_list(),
-    '#description' => t('Pick a train.'),
+    '#title' => t('Which Line'),
+    '#options' => $lines,
+    '#description' => t('Pick a line.'),
   );
+
+  foreach ($lines as $key => $value) {
+    $form['mbta_whichtrain'][$key]['mbta_whichtrain'] = array(
+      '#type' => 'select',
+      '#title' => t($value),
+      '#options' => mbta_get_stops_list($key),
+      '#description' => t('Pick a train.'),
+    );
+  }
 
   $form['mbta_whichtrain']['style'] = array(
     '#type' => 'value',
@@ -45,7 +55,21 @@ function _mbta_which_stop_form($style) {
   return $form;
 }
 
-function mbta_get_stops_list() {
+function mbta_get_stops_list($line) {
+  switch ($line) {
+    case 'red':
+      return mbta_get_red_line_stops();
+      break;
+    case 'blue':
+      return mbta_get_blue_line_stops();
+    case 'orange':
+      return mbta_get_orange_line_stops();
+    default:
+      return;
+  }
+}
+
+function mbta_get_red_line_stops() {
   $mbta_stops = array(
     'Alewife' => 'Alewife',
     'Andrew' => 'Andrew',
@@ -73,3 +97,53 @@ function mbta_get_stops_list() {
   return $mbta_stops;
 }
 
+function mbta_get_blue_line_stops() {
+  $mbta_stops = array(
+    'Airport' => 'Airport',
+    'Aquarium' => 'Aquarium',
+    'Beachmont' => 'Beachmont',
+    'Government Center' => 'Government Center',
+    'Maverick' => 'Maverick',
+    'Orient Heights' => 'Orient Heights',
+    'Revere Beach' => 'Revere Beach',
+    'State Street' => 'State Street',
+    'Suffolk Downs' => 'Suffolk Downs',
+    'Suffolk Downs' => 'Suffolk Downs',
+    'Wonderland' => 'Wonderland',
+    'Wood Island' => 'Wood Island',
+  );
+  return $mbta_stops;
+}
+
+function mbta_get_orange_line_stops() {
+  $mbta_stops = array(
+    'Back Bay' => 'Back Bay',
+    'Chinatown' => 'Chinatown',
+    'Community College' => 'Community College',
+    'Downtown Crossing' => 'Downtown Crossing',
+    'Forest Hills' => 'Forest Hills',
+    'Green Street' => 'Green Street',
+    'Haymarket' => 'Haymarket',
+    'Jackson Square' => 'Jackson Square',
+    'Malden Center' => 'Malden Center',
+    'Mass Ave' => 'Mass Ave',
+    'North Station' => 'North Station',
+    'Oak Grove' => 'Oak Grove',
+    'Roxbury Crossing' => 'Roxbury Crossing',
+    'Ruggles' => 'Ruggles',
+    'State Street' => 'State Street',
+    'Stony Brook' => 'Stony Brook',
+    'Sullivan' => 'Sullivan',
+    'Tufts Medical' => 'Tufts Medical',
+  );
+  return $mbta_stops;
+}
+
+function mbta_get_line_list() {
+  $mbta_lines = array(
+    'blue' => 'Blue Line',
+    'orange' => 'Orange Line',
+    'red' => 'Red Line',
+  );
+  return $mbta_lines;
+}

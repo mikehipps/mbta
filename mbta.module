@@ -81,8 +81,6 @@ function mbta_theme($existing, $type, $theme, $path) {
   );
 }
 
-
-
 /** Form wrapping */
 
 /**
@@ -93,7 +91,7 @@ function mbta_theme($existing, $type, $theme, $path) {
  */
 function mbta_which_stop_form(&$form_state, $style = 'page') {
   module_load_include('inc', 'mbta', 'mbta.forms');
-  return _mbta_which_stop_form($style);
+  return _mbta_which_stop_form($form_state, $style);
 }
 
 function mbta_which_stop_form_submit($form, &$form_state) {

@@ -7,6 +7,7 @@
  */
 function mbta_wheresmytrain() {
   $stop = $_GET['stop'];
+  $line = $_GET['line'];
   $data = drupal_http_request('http://developer.mbta.com/lib/rthr/red.json');
 
   $data = $data->data;
