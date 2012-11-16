@@ -13,31 +13,19 @@ function mbta_wheresmytrain() {
   $data = json_decode($data);
   $trips = $data->TripList->Trips;
   $arrivals = array();
+
+
   foreach ($trips as $trip) {
     foreach ($trip->Predictions as $prediction) {
-      
       if ($prediction->Stop == $stop) {
-        $arrivals[] = array(
-                        'Destination' => $trip->Destination,
-                        'Arrival Time' => $prediction->Seconds,
-        );
+        $time = $prediction->Seconds;
+        $arrivals[$trip->Destination][] = $time;
+        sort($arrivals[$trip->Destination]);
       }
     }
   }
-  
-  $header = array(
-    array(
-      'data' => 'Destination',
-      'field' => 'Destination',
-      'sort' => 'asc',
-     ),
-    array(
-      'data' => 'Arrival Time',
-      'field' => 'Arrival Time',
-      'sort' => 'asc',
-    ),
-  );
 
-  return theme('table', $header, $arrivals);
+  ksort($arrivals);
 
+  return theme('wheres_my_train', $arrivals, 'Arrivals');
 }
