@@ -13,6 +13,7 @@
  *   The MBTA Address Form structure.
  */
 function _mbta_which_stop_form(&$form_state, $style) {
+  drupal_add_js(drupal_get_path('module', 'mbta') . '/js/mbta_wmt.js');
   $form = array();
   $lines = mbta_get_line_list();
 
@@ -23,6 +24,9 @@ function _mbta_which_stop_form(&$form_state, $style) {
   );
 
   $form['mbta_whichtrain']['mbta_whichline'] = array(
+    '#attributes' => array(
+      'id' => 'mbta-whichline',
+    ),
     '#type' => 'select',
     '#title' => t('Which Line'),
     '#options' => $lines,
@@ -30,7 +34,13 @@ function _mbta_which_stop_form(&$form_state, $style) {
   );
 
   foreach ($lines as $key => $value) {
-    $form['mbta_whichtrain'][$key]['mbta_whichtrain'] = array(
+    if (!$value) {
+      continue;
+    }
+    $form['mbta_whichtrain']['mbta_whichtrain'][$key] = array(
+      '#attributes' => array(
+        'id' => 'whichtrain_' . $key,
+      ),
       '#type' => 'select',
       '#title' => t($value),
       '#options' => mbta_get_stops_list($key),
@@ -71,6 +81,7 @@ function mbta_get_stops_list($line) {
 
 function mbta_get_red_line_stops() {
   $mbta_stops = array(
+    '' => '',
     'Alewife' => 'Alewife',
     'Andrew' => 'Andrew',
     'Ashmont' => 'Ashmont',
@@ -99,6 +110,7 @@ function mbta_get_red_line_stops() {
 
 function mbta_get_blue_line_stops() {
   $mbta_stops = array(
+    '' => '',
     'Airport' => 'Airport',
     'Aquarium' => 'Aquarium',
     'Beachmont' => 'Beachmont',
@@ -117,6 +129,7 @@ function mbta_get_blue_line_stops() {
 
 function mbta_get_orange_line_stops() {
   $mbta_stops = array(
+    '' => '',
     'Back Bay' => 'Back Bay',
     'Chinatown' => 'Chinatown',
     'Community College' => 'Community College',
@@ -141,6 +154,7 @@ function mbta_get_orange_line_stops() {
 
 function mbta_get_line_list() {
   $mbta_lines = array(
+    '' => '',
     'blue' => 'Blue Line',
     'orange' => 'Orange Line',
     'red' => 'Red Line',
