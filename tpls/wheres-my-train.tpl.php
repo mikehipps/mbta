@@ -16,14 +16,14 @@
           <ul>
             <?php foreach ($v as $val): ?>
               <li class="mbta-arrival">
-                <?php 
+                <?php
                 if (floor($val/60) > 0) {
                   print floor($val / 60) . ' minutes ';
                 }
                 print $val % 60 . " seconds"; ?>
               <?php endforeach; ?>
           </ul>
-      </ul>   
+      </ul>
     <?php endforeach; ?>
   <?php else: ?>
     <p><?php
