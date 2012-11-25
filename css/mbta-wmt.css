@@ -1,0 +1,15 @@
+/* 
+    Document   : mbta-wmt
+    Created on : Nov 16, 2012, 11:21:22 AM
+    Author     : Mike
+    Description: CSS File for MBTA Module
+*/
+
+#mbta-wmt-info {
+    margin: 0;
+    border: 5px solid black;
+}
+
+#mbta-wmt-info ul {
+    list-style: none;
+}
